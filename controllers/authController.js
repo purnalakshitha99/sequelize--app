@@ -97,3 +97,21 @@ exports.getProfile = async (req, res) => {
     });
   }
 };
+
+exports.getAllProfiles = async (req,res) => {
+  try {
+    const users = await User.findAll({
+      exclude: ["password"],
+    });
+    if (!users) {
+      return res.status(404).json({
+        message: "No users found",
+      });
+    }
+    res.json({ users });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
